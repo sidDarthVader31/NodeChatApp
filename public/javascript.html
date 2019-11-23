@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Chatter/tech/Javascript</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <style>
+      form {
+        padding: 20px;
+        position: fixed;
+        bottom: 0px;
+        width: 100%;
+        padding-right: 50px;
+      }
+      #message {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+      #message li {
+        padding: 5px 10px;
+      }
+      #message li:nth-child(odd) {
+        background: #eeeeee;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <ul id="message"></ul>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <form action="">
+            <div class="input-group">
+              <input
+                id="m"
+                autocomplete="off"
+                type="text"
+                class="form-control"
+                placeholder="Message ..."
+                aria-label="Recipient's username"
+                aria-describedby="button-addon2"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-secondary"
+                  type="submit"
+                  id="button-addon2"
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const room='javascript'
+      const socket = io('/tech');
+      $("form").submit(() => {
+        let msg=$('#m').val();
+
+        console.log("hey");
+        socket.emit("message",{msg,room});
+        $("#m").val("");
+        return false;
+      });
+
+      socket.on('connect',()=>{
+        //emitting to everybody that new user has been connected
+        socket.emit('join',{room:room});
+      });
+      socket.on("message", msg => {
+        console.log("received::", msg);
+        $("#message").append($("<li>").text(msg));
+      });
+    </script>
+  </body>
+</html>

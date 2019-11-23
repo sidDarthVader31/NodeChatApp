@@ -10,58 +10,22 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <style>
-      form {
-        padding: 20px;
-        position: fixed;
-        bottom: 0px;
-        width: 100%;
-        padding-right: 50px;
-      }
-      #message {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-      }
-      #message li {
-        padding: 5px 10px;
-      }
-      #message li:nth-child(odd) {
-        background: #eeeeee;
-      }
-    </style>
   </head>
   <body>
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-3">Tech Chatter!</h1>
+            <p class="lead">Select one of the tech stack room to chat !!</p>
+        </div>
+        </div>
     <div class="container-fluid">
       <div class="row">
-        <ul id="message"></ul>
-      </div>
-      <div class="row">
-        <div class="col-lg-6">
-          <form action="">
-            <div class="input-group">
-              <input
-                id="m"
-                autocomplete="off"
-                type="text"
-                class="form-control"
-                placeholder="Message ..."
-                aria-label="Recipient's username"
-                aria-describedby="button-addon2"
-              />
-              <div class="input-group-append">
-                <button
-                  class="btn btn-secondary"
-                  type="submit"
-                  id="button-addon2"
-                >
-                  Send
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+          <ul class="list-group col">
+              <a href="./javascript" class="list-group-item list-group-item-action">Java Script</a>
+              <a href="./android" class="list-group-item">Android</li>
+              <a href="./node" class="list-group-item">Node.js</a>
+              <a href="./mysql" class="list-group-item">MySql</a>
+            </ul>
       </div>
     </div>
 
@@ -80,19 +44,5 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-      $("form").submit(() => {
-        console.log("hey");
-        socket.emit("message", $("#m").val());
-        $("#m").val("");
-        return false;
-      });
-      socket.on("message", msg => {
-        console.log("received::", msg);
-        $("#message").append($("<li>").text(msg));
-      });
-    </script>
   </body>
 </html>
